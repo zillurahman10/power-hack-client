@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const SecondHeader = ({ billings }) => {
+const SecondHeader = ({ billings, setBillings }) => {
     const [bill, setBill] = useState(null)
     const addBill = e => {
         e.preventDefault()
@@ -10,6 +10,7 @@ const SecondHeader = ({ billings }) => {
         const phone = e.target.phone.value
         const paidAmount = e.target.paidamount.value
 
+        console.log(fullName, email, phone, paidAmount);
         const newBill = { fullName, email, phone, paidAmount }
 
         fetch('http://localhost:5000/billings', {
@@ -22,9 +23,10 @@ const SecondHeader = ({ billings }) => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                if (data.insertedId) {
-                    setBill(newBill)
-                }
+                // if (data.insertedId) {
+                //     setBill(newBill)
+                //     setBillings(bill)
+                // }
             })
 
     }

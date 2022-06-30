@@ -1,6 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
-const Table = ({ billings }) => {
+const Table = ({ billings, setBillings }) => {
+    const deleteBill = id => {
+        const confirm = window.confirm('are you sure to delete the bill')
+        if (confirm) {
+            console.log('deleting user with id', id);
+            const url = `http://localhost:5000/billings/${id}`
+            fetch(url, {
+                method: "DELETE"
+            })
+                .then(res => res.json())
+                .then(data => {
+                    // setBillings()
+                })
+        }
+    }
     return (
         <div className='flex justify-center mt-12 w-50 mx-auto'>
             <table className="table table-bordered mx-6">
@@ -23,7 +37,7 @@ const Table = ({ billings }) => {
                             <td>{billing?.email}</td>
                             <td>{billing?.phone}</td>
                             <td>{billing?.paidAmount}</td>
-                            <td><button>Edit</button> | <button>Delete</button></td>
+                            <td><button>Edit</button> | <button onClick={() => deleteBill(billing._id)}>Delete</button></td>
                         </tr>
                     </tbody>)
                 }

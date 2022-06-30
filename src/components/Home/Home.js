@@ -10,11 +10,13 @@ const Home = () => {
             .then(res => res.json())
             .then(data => setBillings(data))
     }, [])
+
+    console.log(billings);
     return (
         <div>
             <Header></Header>
-            <SecondHeader billings={billings}></SecondHeader>
-            <Table billings={billings}></Table>
+            <SecondHeader billings={billings} setBillings={setBillings}></SecondHeader>
+            <Table billings={billings} setBillings={setBillings}></Table>
         </div>
     );
 };
