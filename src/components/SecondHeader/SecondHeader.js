@@ -1,7 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const SecondHeader = ({ billings, setBillings }) => {
+const SecondHeader = () => {
     const [bill, setBill] = useState(null)
+    const [searchText, setSearchText] = useState('')
+    const [singleBill, setSingleBill] = useState({})
+    const [singleBilling, setSingleBilling] = useState({})
+    const [billings, setBillings] = useState([])
+    useEffect(() => {
+        fetch('http://localhost:5000/billing-list')
+            .then(res => res.json())
+            .then(data => setBillings(data))
+    }, [])
+
+
+    // useEffect(() => {
+    //     fetch(`http://localhost:5000/billing-list/${billings.map(billing => billing._id)}`)
+    // }, [billings])
     const addBill = e => {
         e.preventDefault()
 
@@ -13,7 +27,7 @@ const SecondHeader = ({ billings, setBillings }) => {
         const newBill = { fullName, email, phone, paidAmount }
         console.log(newBill);
 
-        fetch('http://localhost:5000/billings', {
+        fetch('http://localhost:5000/billing-list', {
             method: "POST",
             headers: {
                 'content-type': "application/json"
@@ -23,13 +37,14 @@ const SecondHeader = ({ billings, setBillings }) => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                // if (data.insertedId) {
-                //     setBill(newBill)
-                //     setBillings(bill)
-                // }
+                if (data.insertedId) {
+                    setBill(newBill)
+                    setBillings(bill)
+                }
             })
 
     }
+
     return (
         <>
             {/* Second Header */}
@@ -39,7 +54,7 @@ const SecondHeader = ({ billings, setBillings }) => {
                     <div className='flex justify-between mx-24 my-6'>
                         <div className='flex'>
                             <p>Billings</p>
-                            <input className='border-black ml-12' type="text" name="search" id="search" placeholder='Search' />
+                            <input className='border-black ml-12 pl-2' type="text" name="search" id="search" placeholder='Search...' onChange={event => setSearchText(event.target.value)} />
                         </div>
                         <div>
                             {/* <button className='bg-gray-900 px-4 py-1 text-white rounded-3'>Add New Bill</button> */}

@@ -7,7 +7,7 @@ const Table = () => {
     const [billings, setBillings] = useState([])
 
     useEffect(() => {
-        fetch(`http://localhost:5000/billings?page=${pagesCount}`)
+        fetch(`http://localhost:5000/billing-list?page=${pagesCount}`)
             .then(res => res.json())
             .then(data => setBillings(data))
     }, [pagesCount])
@@ -21,10 +21,10 @@ const Table = () => {
                 setPages(pageCount)
             })
     }, [])
+
     const deleteBill = id => {
         const confirm = window.confirm('are you sure to delete the bill')
         if (confirm) {
-            console.log('deleting user with id', id);
             const url = `http://localhost:5000/billings/${id}`
             fetch(url, {
                 method: "DELETE"
@@ -41,8 +41,6 @@ const Table = () => {
         }
     }
 
-    // console.log(pages);
-    console.log(pagesCount);
     return (
         <>
             <div className='flex justify-center mt-12 w-50 mx-auto'>
