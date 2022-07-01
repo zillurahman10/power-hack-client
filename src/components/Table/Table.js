@@ -5,6 +5,7 @@ const Table = () => {
     const [pages, setPages] = useState(0)
     const [pagesCount, setPagesCount] = useState(0)
     const [billings, setBillings] = useState([])
+    const [bill, setBill] = useState(null)
 
     useEffect(() => {
         fetch(`http://localhost:5000/billing-list?page=${pagesCount}`)
@@ -41,6 +42,36 @@ const Table = () => {
         }
     }
 
+    const updateBill = e => {
+        e.preventDefault()
+
+        const fullName = e.target.fullname.value
+        const email = e.target.email.value
+        const phone = e.target.phone.value
+        const paidAmount = e.target.paidamount.value
+
+        const updatedBill = { fullName, email, phone, paidAmount }
+        console.log(updatedBill);
+
+        fetch(`http://localhost:5000//update-billing/`, {
+            method: "PUT",
+            headers: {
+                'content-type': "application/json"
+            },
+            body: JSON.stringify(updatedBill)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.insertedId) {
+                    setBill(updatedBill)
+                    setBillings(bill)
+                    alert('updated succesfully')
+                }
+            })
+
+    }
+
     return (
         <>
             <div className='flex justify-center mt-12 w-50 mx-auto'>
@@ -75,6 +106,45 @@ const Table = () => {
                     [...Array(pages).keys()]
                         .map(number => <button className={pagesCount === number ? 'selected' : ''} onClick={() => setPagesCount(number)}>{number + 1}</button>)
                 }
+            </div>
+
+
+            {/* modal */}
+
+
+            <input type="checkbox" id="addbill-modal" className="modal-toggle" />
+            <div className="modal modal-bottom sm:modal-middle">
+                <div className="modal-box">
+                    <label htmlFor="addbill-modal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                    <form onSubmit={updateBill}>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Full Name</span>
+                            </label>
+                            <input type="text" placeholder="Alexandre Christie" className="input input-bordered" name='fullname' />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Email</span>
+                            </label>
+                            <input type="email" placeholder="example@gmail.com" className="input input-bordered" name='email' />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Phone</span>
+                            </label>
+                            <input type="text" placeholder="01837758398" className="input input-bordered" name='phone' />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Paid Amount</span>
+                            </label>
+                            <input type="text" placeholder="7384" className="input input-bordered" name='paidamount' />
+                            {/* <label type='submit' htmlFor="addbill-modal" className="btn w-52 mx-auto">Submit</label> */}
+                            <input type="submit" htmlFor='addbill-modal' className='btn w-52 mx-auto mt-3' value='Submit' />
+                        </div>
+                    </form>
+                </div>
             </div>
         </>
     );
