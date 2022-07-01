@@ -10,13 +10,13 @@ const SecondHeader = ({ billings, setBillings }) => {
         const phone = e.target.phone.value
         const paidAmount = e.target.paidamount.value
 
-        console.log(fullName, email, phone, paidAmount);
         const newBill = { fullName, email, phone, paidAmount }
+        console.log(newBill);
 
         fetch('http://localhost:5000/billings', {
             method: "POST",
             headers: {
-                'content-type': 'application/json'
+                'content-type': "application/json"
             },
             body: JSON.stringify(newBill)
         })
@@ -43,7 +43,7 @@ const SecondHeader = ({ billings, setBillings }) => {
                         </div>
                         <div>
                             {/* <button className='bg-gray-900 px-4 py-1 text-white rounded-3'>Add New Bill</button> */}
-                            <label for="addbill-modal" className="btn btn-sm modal-button bg-gray-900 px-4 py-1 text-white rounded-3">Add New Bill</label>
+                            <label htmlFor="addbill-modal" className="btn btn-sm modal-button bg-gray-900 px-4 py-1 text-white rounded-3">Add New Bill</label>
                         </div>
                     </div>
                 </div>
@@ -54,7 +54,7 @@ const SecondHeader = ({ billings, setBillings }) => {
             <input type="checkbox" id="addbill-modal" className="modal-toggle" />
             <div className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
-                    <label for="addbill-modal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                    <label htmlFor="addbill-modal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <form onSubmit={addBill}>
                         <div className="form-control">
                             <label className="label">
@@ -79,8 +79,8 @@ const SecondHeader = ({ billings, setBillings }) => {
                                 <span className="label-text">Paid Amount</span>
                             </label>
                             <input type="text" placeholder="7384" className="input input-bordered" name='paidamount' />
-                            {/* <label type='submit' for="addbill-modal" className="btn w-52 mx-auto">Submit</label> */}
-                            <input type="submit" for='addbill-modal' className='btn w-52 mx-auto mt-3' value='Submit' />
+                            {/* <label type='submit' htmlFor="addbill-modal" className="btn w-52 mx-auto">Submit</label> */}
+                            <input type="submit" htmlFor='addbill-modal' className='btn w-52 mx-auto mt-3' value='Submit' />
                         </div>
                     </form>
                 </div>
